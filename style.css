@@ -29,8 +29,6 @@ body {
   bottom: 0;
 }
 
-/*  */
-
 @keyframes move-twink-back {
   from {
     background-position: 0 0;
@@ -45,6 +43,7 @@ body {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  padding: 10px;
 }
 
 /* Paper Base Styles */
@@ -57,9 +56,11 @@ body {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
   z-index: 10;
+  touch-action: none; /* Improves touch handling on mobile */
 }
 
-.paper:hover {
+.paper:hover,
+.paper:active {
   box-shadow: 0 15px 40px rgba(255, 105, 180, 0.4);
   transform: translateY(-5px) scale(1.02);
 }
@@ -72,8 +73,10 @@ body {
 
 /* Heart Banner */
 .heart-banner {
-  width: 350px;
-  height: 200px;
+  width: calc(100% - 40px);
+  max-width: 350px;
+  height: auto;
+  min-height: 160px;
   top: 5%;
   left: 50%;
   transform: translateX(-50%);
@@ -85,6 +88,7 @@ body {
   align-items: center;
   z-index: 20;
   border-radius: 20px;
+  padding: 15px;
 }
 
 .heart-pulse {
@@ -100,19 +104,22 @@ body {
 
 .headline {
   font-family: "Pacifico", cursive;
-  font-size: 3rem;
+  font-size: clamp(2rem, 5vw, 3rem);
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   margin: 0;
   animation: pulse 2s infinite;
+  text-align: center;
+  word-wrap: break-word;
 }
 
 .subheadline {
   font-family: "Dancing Script", cursive;
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
   color: white;
   margin-top: 10px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
 @keyframes pulse {
@@ -129,7 +136,8 @@ body {
 
 /* Photo Cards */
 .photo-card {
-  width: 280px;
+  width: calc(100% - 60px);
+  max-width: 280px;
   padding: 20px;
   border-radius: 15px;
   background-color: rgba(255, 250, 250, 0.95);
@@ -138,19 +146,19 @@ body {
 
 .photo-card:nth-of-type(1) {
   top: 25%;
-  left: 15%;
+  left: 5%;
   transform: rotate(-5deg);
 }
 
 .photo-card:nth-of-type(2) {
   top: 20%;
-  right: 15%;
+  right: 5%;
   transform: rotate(4deg);
 }
 
 .photo-card:nth-of-type(3) {
   top: 55%;
-  left: 20%;
+  left: 5%;
   transform: rotate(3deg);
 }
 
@@ -195,13 +203,13 @@ body {
 }
 
 .photo-title {
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 5vw, 1.5rem);
   color: #d6336c;
   font-weight: bold;
 }
 
 .photo-subtitle {
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 4vw, 1.3rem);
   color: #e64980;
 }
 
@@ -214,13 +222,15 @@ img {
   transition: transform 0.3s ease;
 }
 
-img:hover {
+img:hover,
+img:active {
   transform: scale(1.03);
 }
 
 /* Message Cards */
 .message-card {
-  width: 250px;
+  width: calc(100% - 60px);
+  max-width: 250px;
   padding: 25px;
   border-radius: 15px;
   background-image: url("https://i0.wp.com/textures.world/wp-content/uploads/2018/10/2-Millimeter-Paper-Background-copy.jpg?ssl=1");
@@ -273,7 +283,7 @@ img:hover {
 
 .message-title {
   font-family: "Dancing Script", cursive;
-  font-size: 1.8rem;
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
   color: #d6336c;
   text-align: center;
   margin-bottom: 10px;
@@ -281,7 +291,7 @@ img:hover {
 
 .message-body {
   font-family: "Dancing Script", cursive;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2rem);
   color: #e64980;
   font-weight: bold;
   text-align: center;
@@ -289,7 +299,7 @@ img:hover {
 
 .love-letter {
   top: 60%;
-  right: 15%;
+  right: 5%;
   transform: rotate(-3deg);
   background-color: rgba(255, 253, 245, 0.95);
   border: 1px solid rgba(210, 105, 30, 0.3);
@@ -298,14 +308,14 @@ img:hover {
 
 .love-title {
   font-family: "Caveat", cursive;
-  font-size: 1.6rem;
+  font-size: clamp(1.3rem, 5vw, 1.6rem);
   color: #5e17eb;
   margin-bottom: 15px;
 }
 
 .love-text {
   font-family: "Caveat", cursive;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 4vw, 1.3rem);
   color: #5e17eb;
   margin: 5px 0;
   line-height: 1.3;
@@ -348,7 +358,7 @@ img:hover {
 .reasons-card {
   position: absolute;
   top: 35%;
-  right: 45%;
+  right: 15%;
   transform: rotate(5deg);
   background-color: rgba(255, 250, 205, 0.95);
   border: 2px dashed gold;
@@ -356,7 +366,7 @@ img:hover {
 
 .reasons-title {
   font-family: "Short Stack", cursive;
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 4.5vw, 1.4rem);
   color: #d6336c;
   margin-bottom: 15px;
   text-align: center;
@@ -369,7 +379,7 @@ img:hover {
 
 .reasons-list li {
   font-family: "Short Stack", cursive;
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 4vw, 1.1rem);
   color: #d6336c;
   margin: 10px 0;
   padding-left: 20px;
@@ -429,7 +439,7 @@ img:hover {
 .coupon-title {
   font-family: "Short Stack", cursive;
   color: #20c997;
-  font-size: 1.6rem;
+  font-size: clamp(1.3rem, 5vw, 1.6rem);
   text-align: center;
   margin-bottom: 15px;
   font-weight: bold;
@@ -438,7 +448,7 @@ img:hover {
 
 .coupon-text {
   font-family: "Short Stack", cursive;
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 4vw, 1.1rem);
   color: #d6336c;
   text-align: center;
   margin: 8px 0;
@@ -447,7 +457,7 @@ img:hover {
 .coupon-signature {
   font-family: "Homemade Apple", cursive;
   color: #d6336c;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 4.5vw, 1.3rem);
   text-align: right;
   margin-top: 25px;
   font-style: italic;
@@ -485,7 +495,7 @@ img:hover {
 
 /* Instruction Card */
 .instruction-card {
-  position: absolute;
+  position: fixed;
   bottom: 20px;
   right: 20px;
   background-color: rgba(255, 255, 255, 0.8);
@@ -493,11 +503,12 @@ img:hover {
   text-align: center;
   width: auto;
   border: 1px dashed #5e17eb;
+  z-index: 30;
 }
 
 .instruction-text {
   font-family: "Short Stack", cursive;
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 3vw, 0.9rem);
   color: #5e17eb;
   margin: 5px 0;
 }
@@ -518,7 +529,8 @@ img:hover {
   transition: all 0.3s ease;
 }
 
-.music-control:hover {
+.music-control:hover,
+.music-control:active {
   background-color: rgba(255, 255, 255, 0.95);
   transform: scale(1.05);
 }
@@ -531,7 +543,7 @@ img:hover {
 
 .music-status {
   font-family: "Short Stack", cursive;
-  font-size: 0.9rem;
+  font-size: clamp(0.7rem, 3vw, 0.9rem);
   color: #5e17eb;
 }
 
@@ -561,23 +573,145 @@ img:hover {
   }
 }
 
-/* Responsive Adjustments */
+/* Enhanced Mobile Responsiveness */
 @media screen and (max-width: 768px) {
-  .heart-banner {
-    width: 280px;
-    height: 160px;
+  .container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .headline {
-    font-size: 2.5rem;
+  .paper {
+    position: relative;
+    margin: 20px auto;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    transform: none !important;
+  }
+
+  .heart-banner {
+    position: relative;
+    margin: 20px auto;
+    transform: none;
+    width: calc(100% - 30px);
   }
 
   .photo-card,
   .message-card {
-    width: 230px;
+    width: calc(100% - 40px);
+    max-width: 280px;
+    margin-bottom: 30px;
+  }
+
+  .photo-card:nth-of-type(1) {
+    transform: rotate(-3deg);
+  }
+
+  .photo-card:nth-of-type(2) {
+    transform: rotate(2deg);
+  }
+
+  .photo-card:nth-of-type(3) {
+    transform: rotate(1deg);
+  }
+
+  .red-card {
+    transform: translateX(0);
+  }
+
+  .love-letter {
+    transform: rotate(-1deg);
+  }
+
+  .reasons-card {
+    transform: rotate(2deg);
+  }
+
+  .coupon-card {
+    transform: rotate(-1deg);
+    position: relative;
+    margin: 30px auto;
+  }
+
+  .instruction-card {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: auto;
+    padding: 8px 12px;
+  }
+
+  .music-control {
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
   }
 
   img {
     height: 150px;
+  }
+}
+
+/* Mobile-First Extra Small Screen Support */
+@media screen and (max-width: 375px) {
+  .heart-banner {
+    padding: 10px;
+    min-height: 120px;
+  }
+
+  .headline {
+    font-size: 1.8rem;
+  }
+
+  .subheadline {
+    font-size: 1rem;
+  }
+
+  .photo-card,
+  .message-card {
+    padding: 15px;
+  }
+
+  .photo-title {
+    font-size: 1.2rem;
+  }
+
+  .photo-subtitle {
+    font-size: 1rem;
+  }
+
+  .message-title {
+    font-size: 1.4rem;
+  }
+
+  .message-body {
+    font-size: 1.6rem;
+  }
+
+  img {
+    height: 120px;
+  }
+
+  .instruction-card,
+  .music-control {
+    font-size: 0.7rem;
+  }
+}
+
+/* Fix for iOS Safari 100vh bug */
+@supports (-webkit-touch-callout: none) {
+  body,
+  .container {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Add touch support for mobile dragging */
+@media (hover: none) {
+  .paper:active {
+    cursor: grabbing;
   }
 }
