@@ -1,346 +1,278 @@
+// Wait for the DOM to fully load
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize draggable papers
+  initDraggable();
+
+  // Initialize tilt effect on cards
+  initTilt();
+
+  // Add double-click heart creation
+  initHeartCreation();
+
+  // Initialize music controls
+  initMusic();
+
+  // Add special effect to red card
+  initConfettiBurst();
+});
+
+// Make papers draggable
+function initDraggable() {
   const papers = document.querySelectorAll(".paper");
 
-  // Add floating birthday elements in the background
-  const birthdayElements = ["🎂", "🎈", "🎁", "🎊", "🎉", "💝", "✨"];
-  for (let i = 0; i < 20; i++) {
-    createFloatingElement(
-      birthdayElements[Math.floor(Math.random() * birthdayElements.length)]
-    );
-  }
-
-  function createFloatingElement(emoji) {
-    const element = document.createElement("div");
-    element.textContent = emoji;
-    element.className = "floating-element";
-    element.style.fontSize = Math.random() * 15 + 15 + "px";
-    element.style.left = Math.random() * 100 + "%";
-    element.style.top = Math.random() * 100 + "%";
-    element.style.opacity = "0.7";
-    element.style.animationDuration = Math.random() * 5 + 8 + "s";
-    element.style.animationDelay = Math.random() * 5 + "s";
-    document.body.appendChild(element);
-  }
-
-  // Create a birthday message that appears after a delay
-  setTimeout(() => {
-    createBirthdayMessage();
-  }, 1000);
-
-  function createBirthdayMessage() {
-    const message = document.createElement("div");
-    message.innerHTML = "Happy Birthday!";
-    message.style.position = "absolute";
-    message.style.top = "5%";
-    message.style.left = "50%";
-    message.style.transform = "translateX(-50%) scale(0)";
-    message.style.fontSize = "60px";
-    message.style.fontFamily = "Dancing Script, cursive";
-    message.style.color = "#d6336c";
-    message.style.fontWeight = "bold";
-    message.style.textShadow = "2px 2px 4px rgba(0,0,0,0.2)";
-    message.style.zIndex = "100";
-    message.style.opacity = "0";
-    message.style.transition =
-      "all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
-    document.body.appendChild(message);
-
-    setTimeout(() => {
-      message.style.opacity = "1";
-      message.style.transform = "translateX(-50%) scale(1)";
-      createConfettiBurst();
-    }, 100);
-  }
-
-  function createConfettiBurst() {
-    for (let i = 0; i < 100; i++) {
-      const confetti = document.createElement("div");
-      const color = `hsl(${Math.random() * 360}, 100%, 70%)`;
-      confetti.style.position = "absolute";
-      confetti.style.width = Math.random() * 8 + 6 + "px";
-      confetti.style.height = Math.random() * 4 + 2 + "px";
-      confetti.style.backgroundColor = color;
-      confetti.style.borderRadius = "2px";
-      confetti.style.top = "5%";
-      confetti.style.left = "50%";
-      confetti.style.zIndex = "50";
-      confetti.style.pointerEvents = "none";
-      confetti.style.transform = "rotate(0deg)";
-      confetti.style.opacity = "1";
-
-      // Random direction burst
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.random() * 300 + 100;
-      const duration = Math.random() * 3 + 3;
-      confetti.style.transition = `all ${duration}s cubic-bezier(0.175, 0.885, 0.32, 1.275)`;
-      document.body.appendChild(confetti);
-
-      setTimeout(() => {
-        confetti.style.transform = `translate(${
-          Math.cos(angle) * distance
-        }px, ${Math.sin(angle) * distance}px) rotate(${
-          Math.random() * 360
-        }deg)`;
-        confetti.style.opacity = "0";
-      }, 10);
-
-      setTimeout(() => {
-        document.body.removeChild(confetti);
-      }, duration * 1000);
-    }
-  }
-
   papers.forEach((paper) => {
-    // Random slight rotation for more natural look
-    const randomRotation = Math.random() * 10 - 5;
-    paper.style.transform = `rotateZ(${randomRotation}deg)`;
+    // Don't make instruction card draggable
+    if (paper.classList.contains("instruction-card")) return;
 
-    // Variables for dragging
     let isDragging = false;
     let offsetX, offsetY;
 
-    // Touch and mouse event handlers
     paper.addEventListener("mousedown", startDrag);
-    paper.addEventListener("touchstart", handleTouch);
-
-    // Double-click to add a cake emoji effect
-    paper.addEventListener("dblclick", addBirthdayEffect);
-
-    function addBirthdayEffect(e) {
-      const birthdayEmoji = ["🎂", "🎁", "🎉", "🎊"][
-        Math.floor(Math.random() * 4)
-      ];
-      const emoji = document.createElement("div");
-      emoji.textContent = birthdayEmoji;
-      emoji.style.position = "absolute";
-      emoji.style.fontSize = "25px";
-      emoji.style.left = e.clientX - 12 + "px";
-      emoji.style.top = e.clientY - 12 + "px";
-      emoji.style.zIndex = "1000";
-      emoji.style.pointerEvents = "none";
-      emoji.style.animation = "float 2s ease-out forwards";
-      emoji.style.opacity = "1";
-      document.body.appendChild(emoji);
-
-      setTimeout(() => {
-        document.body.removeChild(emoji);
-      }, 2000);
-    }
-
-    function handleTouch(e) {
-      const touch = e.touches[0];
-      startDrag({
-        clientX: touch.clientX,
-        clientY: touch.clientY,
-        preventDefault: () => e.preventDefault(),
-      });
-    }
+    paper.addEventListener("touchstart", startDragTouch);
 
     function startDrag(e) {
-      e.preventDefault();
       isDragging = true;
+      paper.classList.add("dragging");
 
-      // Calculate offset between mouse position and paper position
+      // Calculate offset from mouse position to element corner
       const rect = paper.getBoundingClientRect();
       offsetX = e.clientX - rect.left;
       offsetY = e.clientY - rect.top;
 
-      // Bring to front
-      papers.forEach((p) => (p.style.zIndex = "1"));
-      paper.style.zIndex = "1000";
-
-      // Add dragging class for visual feedback
-      paper.classList.add("dragging");
-
-      // Add event listeners for movement and end
+      // Add move and release listeners to document
       document.addEventListener("mousemove", drag);
-      document.addEventListener("touchmove", handleTouchMove);
-      document.addEventListener("mouseup", endDrag);
-      document.addEventListener("touchend", endDrag);
+      document.addEventListener("mouseup", stopDrag);
     }
 
-    function handleTouchMove(e) {
+    function startDragTouch(e) {
+      isDragging = true;
+      paper.classList.add("dragging");
+
+      // Calculate offset from touch position to element corner
+      const rect = paper.getBoundingClientRect();
       const touch = e.touches[0];
-      drag({
-        clientX: touch.clientX,
-        clientY: touch.clientY,
-        preventDefault: () => e.preventDefault(),
-      });
+      offsetX = touch.clientX - rect.left;
+      offsetY = touch.clientY - rect.top;
+
+      // Add move and release listeners to document
+      document.addEventListener("touchmove", dragTouch);
+      document.addEventListener("touchend", stopDrag);
+
+      // Prevent scrolling while dragging
+      e.preventDefault();
     }
 
     function drag(e) {
-      e.preventDefault();
       if (!isDragging) return;
 
       // Calculate new position
       const x = e.clientX - offsetX;
       const y = e.clientY - offsetY;
 
-      // Apply new position
+      // Set new position
       paper.style.left = `${x}px`;
       paper.style.top = `${y}px`;
+
+      // Remove transforms that might interfere with dragging
+      paper.style.transform = "";
     }
 
-    function endDrag() {
+    function dragTouch(e) {
+      if (!isDragging) return;
+
+      const touch = e.touches[0];
+
+      // Calculate new position
+      const x = touch.clientX - offsetX;
+      const y = touch.clientY - offsetY;
+
+      // Set new position
+      paper.style.left = `${x}px`;
+      paper.style.top = `${y}px`;
+
+      // Remove transforms that might interfere with dragging
+      paper.style.transform = "";
+
+      // Prevent scrolling while dragging
+      e.preventDefault();
+    }
+
+    function stopDrag() {
       isDragging = false;
       paper.classList.remove("dragging");
 
-      // Add a little bounce effect when dropping
-      paper.style.transition = "transform 0.3s ease";
-      const currentRotation =
-        paper.style.rotate ||
-        paper.style.transform.match(/rotateZ\(([^)]+)\)/) ||
-        "0deg";
-      paper.style.transform = `rotateZ(${currentRotation}) scale(1.05)`;
-
-      setTimeout(() => {
-        paper.style.transform = `rotateZ(${currentRotation}) scale(1)`;
-      }, 300);
-
-      // Remove event listeners
+      // Remove document listeners
       document.removeEventListener("mousemove", drag);
-      document.removeEventListener("touchmove", handleTouchMove);
-      document.removeEventListener("mouseup", endDrag);
-      document.removeEventListener("touchend", endDrag);
-
-      // Reset transition after animation completes
-      setTimeout(() => {
-        paper.style.transition = "";
-      }, 300);
+      document.removeEventListener("mouseup", stopDrag);
+      document.removeEventListener("touchmove", dragTouch);
+      document.removeEventListener("touchend", stopDrag);
     }
   });
+}
 
-  // Special heart animation
-  const heart = document.querySelector(".paper.heart");
-  if (heart) {
-    setInterval(() => {
-      heart.style.transform = "rotateZ(-5deg) scale(1.08)";
+// Initialize tilt effect on cards
+function initTilt() {
+  VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+    max: 15,
+    speed: 400,
+    glare: true,
+    "max-glare": 0.3,
+    scale: 1.03,
+  });
+}
+
+// Create hearts on double-click
+function initHeartCreation() {
+  document.addEventListener("dblclick", function (e) {
+    // Create heart element
+    const heart = document.createElement("div");
+    heart.classList.add("floating-heart");
+    heart.innerHTML = "❤️";
+    heart.style.position = "absolute";
+    heart.style.fontSize = `${Math.random() * 20 + 20}px`;
+    heart.style.left = `${e.clientX}px`;
+    heart.style.top = `${e.clientY}px`;
+    heart.style.zIndex = "5";
+    heart.style.pointerEvents = "none";
+    heart.style.opacity = "0.9";
+
+    // Set animation
+    heart.style.animation = `float ${
+      Math.random() * 2 + 3
+    }s ease-in-out forwards`;
+
+    // Add random rotation
+    const rotation = Math.random() * 40 - 20;
+    heart.style.transform = `rotate(${rotation}deg)`;
+
+    // Add to body
+    document.body.appendChild(heart);
+
+    // Remove after animation completes
+    setTimeout(() => {
+      heart.style.opacity = "0";
+      heart.style.transition = "opacity 1s ease";
+
+      // Remove from DOM after transition
       setTimeout(() => {
-        heart.style.transform = "rotateZ(-5deg) scale(1)";
-      }, 500);
+        document.body.removeChild(heart);
+      }, 1000);
     }, 3000);
-  }
+  });
+}
 
-  // Add birthday splash effects when clicking on special papers
-  const specialPapers = document.querySelectorAll(
-    ".paper.red, .paper.special, .paper.coupon"
-  );
-  specialPapers.forEach((paper) => {
-    paper.addEventListener("click", function (e) {
-      if (e.target.tagName !== "IMG") {
-        // Don't trigger on image clicks
-        if (paper.classList.contains("coupon")) {
-          createGiftAnimation(e.clientX, e.clientY);
-        } else if (paper.classList.contains("special")) {
-          createStarBurst(e.clientX, e.clientY);
-        } else {
-          createConfettiBurst(e.clientX, e.clientY);
-        }
-      }
-    });
+// Initialize music controls
+function initMusic() {
+  const musicControl = document.querySelector(".music-control");
+  const musicStatus = document.querySelector(".music-status");
+  const bgMusic = document.getElementById("bgMusic");
+
+  musicControl.addEventListener("click", toggleMusic);
+
+  function toggleMusic() {
+    if (bgMusic.paused) {
+      // Play music
+      bgMusic
+        .play()
+        .then(() => {
+          musicStatus.textContent = "Pause Music";
+          musicControl.classList.add("music-playing");
+        })
+        .catch((error) => {
+          console.error("Error playing music:", error);
+          alert("To hear the music, please interact with the page first.");
+        });
+    } else {
+      // Pause music
+      bgMusic.pause();
+      musicStatus.textContent = "Play Music";
+      musicControl.classList.remove("music-playing");
+    }
+  }
+}
+
+// Initialize confetti burst on red card click
+function initConfettiBurst() {
+  const redCard = document.querySelector(".red-card");
+
+  redCard.addEventListener("click", function () {
+    // Create confetti burst
+    createConfetti(100);
+
+    // Add special animation to the card
+    this.style.animation = "pulse 0.5s ease-in-out";
+
+    // Reset animation after it completes
+    setTimeout(() => {
+      this.style.animation = "";
+    }, 500);
   });
 
-  function createGiftAnimation(x, y) {
-    for (let i = 0; i < 10; i++) {
-      setTimeout(() => {
-        const gift = document.createElement("div");
-        gift.textContent = "🎁";
-        gift.style.position = "absolute";
-        gift.style.fontSize = Math.random() * 20 + 15 + "px";
-        gift.style.left = x + "px";
-        gift.style.top = y + "px";
-        gift.style.zIndex = "100";
-        gift.style.pointerEvents = "none";
+  function createConfetti(count) {
+    const confettiBurst = document.querySelector(".confetti-burst");
+    confettiBurst.innerHTML = "";
 
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 150 + 50;
-        const duration = Math.random() * 2 + 1;
+    const colors = [
+      "#FF69B4",
+      "#FFB6C1",
+      "#FFC0CB",
+      "#FF1493",
+      "#DB7093",
+      "#C71585",
+      "#DA70D6",
+      "#FF00FF",
+    ];
 
-        gift.style.transition = `all ${duration}s ease-out`;
-        document.body.appendChild(gift);
-
-        setTimeout(() => {
-          gift.style.transform = `translate(${Math.cos(angle) * distance}px, ${
-            Math.sin(angle) * distance
-          }px) rotate(${Math.random() * 360}deg)`;
-          gift.style.opacity = "0";
-        }, 10);
-
-        setTimeout(() => {
-          document.body.removeChild(gift);
-        }, duration * 1000);
-      }, i * 100);
-    }
-  }
-
-  function createStarBurst(x, y) {
-    for (let i = 0; i < 15; i++) {
-      setTimeout(() => {
-        const star = document.createElement("div");
-        star.textContent = "✨";
-        star.style.position = "absolute";
-        star.style.fontSize = Math.random() * 15 + 10 + "px";
-        star.style.left = x + "px";
-        star.style.top = y + "px";
-        star.style.zIndex = "100";
-        star.style.pointerEvents = "none";
-
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 100 + 50;
-        const duration = Math.random() * 2 + 1;
-
-        star.style.transition = `all ${duration}s ease-out`;
-        document.body.appendChild(star);
-
-        setTimeout(() => {
-          star.style.transform = `translate(${Math.cos(angle) * distance}px, ${
-            Math.sin(angle) * distance
-          }px) rotate(${Math.random() * 360}deg)`;
-          star.style.opacity = "0";
-        }, 10);
-
-        setTimeout(() => {
-          document.body.removeChild(star);
-        }, duration * 1000);
-      }, i * 50);
-    }
-  }
-
-  function createConfettiBurst(x, y) {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < count; i++) {
       const confetti = document.createElement("div");
-      const color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+
+      // Randomize confetti appearance
+      const size = Math.random() * 10 + 5;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const isCircle = Math.random() > 0.5;
+
       confetti.style.position = "absolute";
-      confetti.style.width = Math.random() * 8 + 6 + "px";
-      confetti.style.height = Math.random() * 4 + 2 + "px";
+      confetti.style.width = `${size}px`;
+      confetti.style.height = `${size}px`;
       confetti.style.backgroundColor = color;
-      confetti.style.borderRadius = "2px";
-      confetti.style.top = y + "px";
-      confetti.style.left = x + "px";
-      confetti.style.zIndex = "50";
-      confetti.style.pointerEvents = "none";
-      confetti.style.transform = "rotate(0deg)";
-      confetti.style.opacity = "1";
+      confetti.style.borderRadius = isCircle ? "50%" : "0";
 
-      // Random direction burst
-      const angle = Math.random() * Math.PI * 2;
-      const distance = Math.random() * 150 + 50;
+      // Randomize confetti position
+      confetti.style.left = `${Math.random() * 100}%`;
+      confetti.style.top = `${Math.random() * 100}%`;
+
+      // Randomize confetti animation
       const duration = Math.random() * 2 + 1;
-      confetti.style.transition = `all ${duration}s cubic-bezier(0.175, 0.885, 0.32, 1.275)`;
-      document.body.appendChild(confetti);
+      const delay = Math.random() * 0.5;
 
-      setTimeout(() => {
-        confetti.style.transform = `translate(${
-          Math.cos(angle) * distance
-        }px, ${Math.sin(angle) * distance}px) rotate(${
-          Math.random() * 360
-        }deg)`;
-        confetti.style.opacity = "0";
-      }, 10);
+      confetti.style.animation = `confettiDrop ${duration}s ease-in ${delay}s forwards`;
 
+      // Add to confetti container
+      confettiBurst.appendChild(confetti);
+
+      // Remove confetti after animation
       setTimeout(() => {
-        document.body.removeChild(confetti);
-      }, duration * 1000);
+        confetti.remove();
+      }, (duration + delay) * 1000);
     }
   }
-});
+
+  // Add confetti animation to document
+  const style = document.createElement("style");
+  style.innerHTML = `
+    @keyframes confettiDrop {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      80% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(${window.innerHeight}px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}

@@ -1,41 +1,554 @@
-@import url("https://fonts.googleapis.com/css2?family=Zeyada&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Short+Stack&family=Homemade+Apple&display=swap");
+/* Base Styles and Animations */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-size: cover;
-  background-image: url("https://www.psdgraphics.com/wp-content/uploads/2022/01/white-math-paper-texture.jpg");
-  background-position: center center;
+  font-family: "Dancing Script", cursive;
   overflow: hidden;
   margin: 0;
   padding: 0;
   cursor: default;
   position: relative;
+  background-color: #f09df5;
+  color: #333;
 }
 
-/* Add floating birthday elements in the background */
-body::before {
-  content: "🎂";
+/* Starry Night Background */
+.stars,
+.twinkling {
   position: absolute;
-  font-size: 25px;
-  top: 15%;
-  left: 10%;
-  animation: float 9s ease-in-out infinite;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
-body::after {
-  content: "🎈";
+/*  */
+
+@keyframes move-twink-back {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -10000px 5000px;
+  }
+}
+
+.container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Paper Base Styles */
+.paper {
   position: absolute;
-  font-size: 30px;
-  bottom: 20%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  cursor: move;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.paper:hover {
+  box-shadow: 0 15px 40px rgba(255, 105, 180, 0.4);
+  transform: translateY(-5px) scale(1.02);
+}
+
+.paper.dragging {
+  z-index: 1000;
+  opacity: 0.95;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Heart Banner */
+.heart-banner {
+  width: 350px;
+  height: 200px;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ff7eb9, #ff65a3);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  border-radius: 20px;
+}
+
+.heart-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url("https://cdn.pixabay.com/photo/2016/03/31/19/25/cartoon-1294994__340.png")
+    no-repeat center;
+  background-size: 80px;
+  opacity: 0.3;
+  z-index: -1;
+}
+
+.headline {
+  font-family: "Pacifico", cursive;
+  font-size: 3rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  animation: pulse 2s infinite;
+}
+
+.subheadline {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.5rem;
+  color: white;
+  margin-top: 10px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Photo Cards */
+.photo-card {
+  width: 280px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: rgba(255, 250, 250, 0.95);
+  border: 1px solid rgba(255, 182, 193, 0.3);
+}
+
+.photo-card:nth-of-type(1) {
+  top: 25%;
+  left: 15%;
+  transform: rotate(-5deg);
+}
+
+.photo-card:nth-of-type(2) {
+  top: 20%;
   right: 15%;
-  animation: float 8s ease-in-out infinite 1s;
+  transform: rotate(4deg);
 }
 
+.photo-card:nth-of-type(3) {
+  top: 55%;
+  left: 20%;
+  transform: rotate(3deg);
+}
+
+.card-content {
+  position: relative;
+}
+
+.polaroid {
+  position: relative;
+  padding: 10px 10px 30px 10px;
+  background: white;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+}
+
+.tape {
+  position: absolute;
+  width: 40px;
+  height: 15px;
+  background-color: rgba(255, 240, 245, 0.8);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: rotate(-10deg);
+  z-index: 1;
+}
+
+.tape.left {
+  top: -5px;
+  left: 20px;
+}
+
+.tape.right {
+  top: -7px;
+  right: 20px;
+  transform: rotate(10deg);
+}
+
+.photo-title,
+.photo-subtitle {
+  font-family: "Dancing Script", cursive;
+  text-align: center;
+  margin: 5px 0;
+}
+
+.photo-title {
+  font-size: 1.5rem;
+  color: #d6336c;
+  font-weight: bold;
+}
+
+.photo-subtitle {
+  font-size: 1.3rem;
+  color: #e64980;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 5px;
+  transition: transform 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.03);
+}
+
+/* Message Cards */
+.message-card {
+  width: 250px;
+  padding: 25px;
+  border-radius: 15px;
+  background-image: url("https://i0.wp.com/textures.world/wp-content/uploads/2018/10/2-Millimeter-Paper-Background-copy.jpg?ssl=1");
+  background-size: 500px;
+  background-blend-mode: overlay;
+}
+
+.red-card {
+  top: 45%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 230, 240, 0.95);
+  border: 2px solid rgba(255, 182, 193, 0.7);
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.confetti-burst {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.message-title {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.8rem;
+  color: #d6336c;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.message-body {
+  font-family: "Dancing Script", cursive;
+  font-size: 2rem;
+  color: #e64980;
+  font-weight: bold;
+  text-align: center;
+}
+
+.love-letter {
+  top: 60%;
+  right: 15%;
+  transform: rotate(-3deg);
+  background-color: rgba(255, 253, 245, 0.95);
+  border: 1px solid rgba(210, 105, 30, 0.3);
+  position: relative;
+}
+
+.love-title {
+  font-family: "Caveat", cursive;
+  font-size: 1.6rem;
+  color: #5e17eb;
+  margin-bottom: 15px;
+}
+
+.love-text {
+  font-family: "Caveat", cursive;
+  font-size: 1.3rem;
+  color: #5e17eb;
+  margin: 5px 0;
+  line-height: 1.3;
+}
+
+.heart-icon {
+  color: #d6336c;
+  font-size: 1.5rem;
+  display: inline-block;
+  animation: beat 1s infinite alternate;
+}
+
+@keyframes beat {
+  to {
+    transform: scale(1.2);
+  }
+}
+
+.wax-seal {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: #d6336c;
+  bottom: 15px;
+  right: 15px;
+  border-radius: 50%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.wax-seal::after {
+  content: "❤";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 20px;
+}
+
+.reasons-card {
+  position: absolute;
+  top: 35%;
+  right: 45%;
+  transform: rotate(5deg);
+  background-color: rgba(255, 250, 205, 0.95);
+  border: 2px dashed gold;
+}
+
+.reasons-title {
+  font-family: "Short Stack", cursive;
+  font-size: 1.4rem;
+  color: #d6336c;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.reasons-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.reasons-list li {
+  font-family: "Short Stack", cursive;
+  font-size: 1.1rem;
+  color: #d6336c;
+  margin: 10px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.reasons-list li::before {
+  content: "♥";
+  position: absolute;
+  left: 0;
+  color: #e64980;
+}
+
+.stamp {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-color: rgba(255, 182, 193, 0.3);
+  border: 1px dashed #d6336c;
+  border-radius: 5px;
+  right: -10px;
+  bottom: -10px;
+  transform: rotate(15deg);
+}
+
+.stamp::after {
+  content: "♥";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #d6336c;
+  font-size: 30px;
+}
+
+/* Coupon Card */
+.coupon-card {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  background-color: rgba(230, 255, 250, 0.95);
+  border: 3px solid #20c997;
+}
+
+.coupon-border {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1px dashed #20c997;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.coupon-title {
+  font-family: "Short Stack", cursive;
+  color: #20c997;
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.coupon-text {
+  font-family: "Short Stack", cursive;
+  font-size: 1.1rem;
+  color: #d6336c;
+  text-align: center;
+  margin: 8px 0;
+}
+
+.coupon-signature {
+  font-family: "Homemade Apple", cursive;
+  color: #d6336c;
+  font-size: 1.3rem;
+  text-align: right;
+  margin-top: 25px;
+  font-style: italic;
+}
+
+.stamp-seal {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(32, 201, 151, 0.2);
+  border-radius: 50%;
+  border: 1px solid #20c997;
+}
+
+.stamp-seal::after {
+  content: "🎁";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
+.dotted-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-top: 2px dashed rgba(32, 201, 151, 0.5);
+  z-index: -1;
+}
+
+/* Instruction Card */
+.instruction-card {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 15px;
+  text-align: center;
+  width: auto;
+  border: 1px dashed #5e17eb;
+}
+
+.instruction-text {
+  font-family: "Short Stack", cursive;
+  font-size: 0.9rem;
+  color: #5e17eb;
+  margin: 5px 0;
+}
+
+/* Music Control */
+.music-control {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 30px;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.music-control:hover {
+  background-color: rgba(255, 255, 255, 0.95);
+  transform: scale(1.05);
+}
+
+.music-icon {
+  font-size: 1.5rem;
+  margin-right: 10px;
+  animation: spin 4s linear infinite paused;
+}
+
+.music-status {
+  font-family: "Short Stack", cursive;
+  font-size: 0.9rem;
+  color: #5e17eb;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.music-playing .music-icon {
+  animation-play-state: running;
+}
+
+/* Floating Elements */
 @keyframes float {
   0% {
     transform: translateY(0) rotate(0deg);
@@ -48,248 +561,23 @@ body::after {
   }
 }
 
-/* Add more floating elements */
-.floating-element {
-  position: absolute;
-  font-size: 25px;
-  pointer-events: none;
-  z-index: 0;
-  animation: float 10s ease-in-out infinite;
-}
-
-.paper {
-  background-image: url("https://i0.wp.com/textures.world/wp-content/uploads/2018/10/2-Millimeter-Paper-Background-copy.jpg?ssl=1");
-  background-size: 500px;
-  background-position: center center;
-  padding: 20px 40px;
-  max-width: 300px;
-  transform: rotateZ(-5deg);
-  box-shadow: 1px 15px 20px 0px rgba(0, 0, 0, 0.5);
-  position: absolute;
-  border-radius: 12px;
-  cursor: move;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(200, 200, 255, 0.3);
-}
-
-.paper:hover {
-  box-shadow: 2px 20px 30px 0px rgba(255, 105, 180, 0.4);
-  transform: rotateZ(-3deg) scale(1.03);
-}
-
-.paper.heart {
-  position: relative;
-  width: 200px;
-  height: 200px;
-  padding: 0;
-  border-radius: 50%;
-  z-index: 10;
-  background-color: rgba(255, 240, 245, 0.9);
-}
-
-.paper.image {
-  padding: 20px;
-  background-color: rgba(255, 240, 245, 0.9);
-  border: 2px solid rgba(255, 182, 193, 0.5);
-}
-
-.paper.image p {
-  font-size: 22px;
-  margin: 6px 0;
-  text-align: center;
-  font-family: "Dancing Script", cursive;
-  color: #d6336c;
-  font-weight: bold;
-}
-
-.paper.red {
-  background-color: rgba(255, 230, 240, 0.9);
-  background-blend-mode: overlay;
-  border: 2px solid rgba(255, 182, 193, 0.7);
-}
-
-.paper.special {
-  background-color: rgba(255, 250, 205, 0.9);
-  border: 2px dashed gold;
-}
-
-.paper.coupon {
-  background-color: rgba(230, 255, 250, 0.9);
-  border: 3px solid #20c997;
-  padding-bottom: 40px;
-}
-
-.paper.coupon .title {
-  font-family: "Short Stack", cursive;
-  color: #20c997;
-  font-size: 26px;
-  text-align: center;
-  text-decoration: underline;
-  margin-bottom: 15px;
-  font-weight: bold;
-}
-
-.paper.coupon .signature {
-  font-family: "Homemade Apple", cursive;
-  color: #d6336c;
-  font-size: 22px;
-  text-align: right;
-  margin-top: 25px;
-  font-style: italic;
-}
-
-img {
-  max-height: 200px;
-  width: 100%;
-  user-select: none;
-  border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease;
-  border: 3px solid white;
-}
-
-img:hover {
-  transform: scale(1.04);
-  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
-}
-
-.paper.heart::after {
-  content: "";
-  background-image: url("https://cdn.pixabay.com/photo/2016/03/31/19/25/cartoon-1294994__340.png");
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-size: 150px;
-  background-position: center center;
-  background-repeat: no-repeat;
-  opacity: 0.9;
-  animation: heartBeat 3s infinite;
-  z-index: 1;
-  filter: drop-shadow(0 0 5px pink);
-}
-
-@keyframes heartBeat {
-  0% {
-    transform: scale(1);
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .heart-banner {
+    width: 280px;
+    height: 160px;
   }
-  15% {
-    transform: scale(1.1);
+
+  .headline {
+    font-size: 2.5rem;
   }
-  30% {
-    transform: scale(1);
+
+  .photo-card,
+  .message-card {
+    width: 230px;
   }
-  45% {
-    transform: scale(1.1);
+
+  img {
+    height: 150px;
   }
-  60% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-p {
-  font-family: "Zeyada", cursive;
-  font-size: 28px;
-  color: #5e17eb;
-  opacity: 0.9;
-  user-select: none;
-  line-height: 1.3;
-  margin: 5px 0;
-  text-shadow: 1px 1px 2px rgba(150, 100, 255, 0.3);
-}
-
-.p1 {
-  font-size: 26px;
-  color: #d6336c;
-}
-
-.p2 {
-  font-size: 34px;
-  color: #e64980;
-  font-weight: bold;
-  font-family: "Dancing Script", cursive;
-}
-
-/* Scattered paper positions */
-.paper:nth-child(1) {
-  top: 20%;
-  left: 25%;
-  transform: rotate(-8deg);
-}
-.paper:nth-child(2) {
-  top: 25%;
-  left: 40%;
-  transform: rotate(3deg);
-}
-.paper:nth-child(3) {
-  top: 18%;
-  left: 55%;
-  transform: rotate(-5deg);
-}
-.paper:nth-child(4) {
-  top: 45%;
-  left: 30%;
-  transform: rotate(4deg);
-}
-.paper:nth-child(5) {
-  top: 48%;
-  left: 48%;
-  transform: rotate(-6deg);
-}
-.paper:nth-child(6) {
-  top: 30%;
-  left: 60%;
-  transform: rotate(5deg);
-}
-.paper:nth-child(7) {
-  top: 15%;
-  left: 70%;
-  transform: rotate(-4deg);
-}
-.paper:nth-child(8) {
-  top: 60%;
-  left: 65%;
-  transform: rotate(7deg);
-}
-.paper:nth-child(9) {
-  top: 70%;
-  left: 40%;
-  transform: rotate(-3deg);
-}
-
-/* Add this style for JavaScript dragging functionality */
-.paper.dragging {
-  opacity: 0.9;
-  z-index: 1000;
-  transform: scale(1.05) rotate(0deg);
-  box-shadow: 0 25px 30px rgba(255, 105, 180, 0.4);
-}
-
-/* Add decorative elements */
-.paper::before {
-  content: "❤️";
-  position: absolute;
-  font-size: 12px;
-  top: 5px;
-  right: 10px;
-  opacity: 0.7;
-}
-
-.paper.special::before {
-  content: "✨";
-}
-
-.paper.coupon::before {
-  content: "🎁";
-}
-
-/* Custom styles for special messages */
-.paper:nth-child(6) p {
-  font-family: "Dancing Script", cursive;
-  color: #d6336c;
-  font-weight: bold;
 }
