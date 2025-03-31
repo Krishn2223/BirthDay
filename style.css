@@ -1,0 +1,295 @@
+@import url("https://fonts.googleapis.com/css2?family=Zeyada&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Short+Stack&family=Homemade+Apple&display=swap");
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-image: url("https://www.psdgraphics.com/wp-content/uploads/2022/01/white-math-paper-texture.jpg");
+  background-position: center center;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  cursor: default;
+  position: relative;
+}
+
+/* Add floating birthday elements in the background */
+body::before {
+  content: "🎂";
+  position: absolute;
+  font-size: 25px;
+  top: 15%;
+  left: 10%;
+  animation: float 9s ease-in-out infinite;
+}
+
+body::after {
+  content: "🎈";
+  position: absolute;
+  font-size: 30px;
+  bottom: 20%;
+  right: 15%;
+  animation: float 8s ease-in-out infinite 1s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(10deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Add more floating elements */
+.floating-element {
+  position: absolute;
+  font-size: 25px;
+  pointer-events: none;
+  z-index: 0;
+  animation: float 10s ease-in-out infinite;
+}
+
+.paper {
+  background-image: url("https://i0.wp.com/textures.world/wp-content/uploads/2018/10/2-Millimeter-Paper-Background-copy.jpg?ssl=1");
+  background-size: 500px;
+  background-position: center center;
+  padding: 20px 40px;
+  max-width: 300px;
+  transform: rotateZ(-5deg);
+  box-shadow: 1px 15px 20px 0px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  border-radius: 12px;
+  cursor: move;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(200, 200, 255, 0.3);
+}
+
+.paper:hover {
+  box-shadow: 2px 20px 30px 0px rgba(255, 105, 180, 0.4);
+  transform: rotateZ(-3deg) scale(1.03);
+}
+
+.paper.heart {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  padding: 0;
+  border-radius: 50%;
+  z-index: 10;
+  background-color: rgba(255, 240, 245, 0.9);
+}
+
+.paper.image {
+  padding: 20px;
+  background-color: rgba(255, 240, 245, 0.9);
+  border: 2px solid rgba(255, 182, 193, 0.5);
+}
+
+.paper.image p {
+  font-size: 22px;
+  margin: 6px 0;
+  text-align: center;
+  font-family: "Dancing Script", cursive;
+  color: #d6336c;
+  font-weight: bold;
+}
+
+.paper.red {
+  background-color: rgba(255, 230, 240, 0.9);
+  background-blend-mode: overlay;
+  border: 2px solid rgba(255, 182, 193, 0.7);
+}
+
+.paper.special {
+  background-color: rgba(255, 250, 205, 0.9);
+  border: 2px dashed gold;
+}
+
+.paper.coupon {
+  background-color: rgba(230, 255, 250, 0.9);
+  border: 3px solid #20c997;
+  padding-bottom: 40px;
+}
+
+.paper.coupon .title {
+  font-family: "Short Stack", cursive;
+  color: #20c997;
+  font-size: 26px;
+  text-align: center;
+  text-decoration: underline;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.paper.coupon .signature {
+  font-family: "Homemade Apple", cursive;
+  color: #d6336c;
+  font-size: 22px;
+  text-align: right;
+  margin-top: 25px;
+  font-style: italic;
+}
+
+img {
+  max-height: 200px;
+  width: 100%;
+  user-select: none;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  border: 3px solid white;
+}
+
+img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.4);
+}
+
+.paper.heart::after {
+  content: "";
+  background-image: url("https://cdn.pixabay.com/photo/2016/03/31/19/25/cartoon-1294994__340.png");
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-size: 150px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+  animation: heartBeat 3s infinite;
+  z-index: 1;
+  filter: drop-shadow(0 0 5px pink);
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.1);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.1);
+  }
+  60% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+p {
+  font-family: "Zeyada", cursive;
+  font-size: 28px;
+  color: #5e17eb;
+  opacity: 0.9;
+  user-select: none;
+  line-height: 1.3;
+  margin: 5px 0;
+  text-shadow: 1px 1px 2px rgba(150, 100, 255, 0.3);
+}
+
+.p1 {
+  font-size: 26px;
+  color: #d6336c;
+}
+
+.p2 {
+  font-size: 34px;
+  color: #e64980;
+  font-weight: bold;
+  font-family: "Dancing Script", cursive;
+}
+
+/* Scattered paper positions */
+.paper:nth-child(1) {
+  top: 20%;
+  left: 25%;
+  transform: rotate(-8deg);
+}
+.paper:nth-child(2) {
+  top: 25%;
+  left: 40%;
+  transform: rotate(3deg);
+}
+.paper:nth-child(3) {
+  top: 18%;
+  left: 55%;
+  transform: rotate(-5deg);
+}
+.paper:nth-child(4) {
+  top: 45%;
+  left: 30%;
+  transform: rotate(4deg);
+}
+.paper:nth-child(5) {
+  top: 48%;
+  left: 48%;
+  transform: rotate(-6deg);
+}
+.paper:nth-child(6) {
+  top: 30%;
+  left: 60%;
+  transform: rotate(5deg);
+}
+.paper:nth-child(7) {
+  top: 15%;
+  left: 70%;
+  transform: rotate(-4deg);
+}
+.paper:nth-child(8) {
+  top: 60%;
+  left: 65%;
+  transform: rotate(7deg);
+}
+.paper:nth-child(9) {
+  top: 70%;
+  left: 40%;
+  transform: rotate(-3deg);
+}
+
+/* Add this style for JavaScript dragging functionality */
+.paper.dragging {
+  opacity: 0.9;
+  z-index: 1000;
+  transform: scale(1.05) rotate(0deg);
+  box-shadow: 0 25px 30px rgba(255, 105, 180, 0.4);
+}
+
+/* Add decorative elements */
+.paper::before {
+  content: "❤️";
+  position: absolute;
+  font-size: 12px;
+  top: 5px;
+  right: 10px;
+  opacity: 0.7;
+}
+
+.paper.special::before {
+  content: "✨";
+}
+
+.paper.coupon::before {
+  content: "🎁";
+}
+
+/* Custom styles for special messages */
+.paper:nth-child(6) p {
+  font-family: "Dancing Script", cursive;
+  color: #d6336c;
+  font-weight: bold;
+}
